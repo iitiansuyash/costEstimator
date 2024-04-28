@@ -1,0 +1,70 @@
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* align-items: flex-end; */
+    position: absolute;
+    /* bottom: 50  px; Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 20px;
+}
+
+.card {
+    width: 200px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+
+.card:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.plus {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: #ccc;
+}
+
+.card select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.chart {
+    position: absolute;
+    bottom: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.total-cost {
+    margin-top: 20px;
+    text-align: center;
+    
+}
+
+.total-cost p {
+    font-weight: bold;
+    color: #333;
+    
+}
