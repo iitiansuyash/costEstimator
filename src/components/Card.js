@@ -3,16 +3,38 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
 
 const Card = ({ cardId, title, options, handleOptionSelect }) => {
+    const [selectedOption, setSelectedOption] = useState('');
+    const [customValue, setCustomValue] = useState('');
+
+    const handleChange = (e) => {
+        const { value } = e.target;
+        setSelectedOption(value);
+        handleOptionSelect(cardId, value === 'Custom' ? customValue : value);
+    };
+
+    const handleCustomInputChange = (e) => {
+        const { value } = e.target;
+        setCustomValue(value);
+        handleOptionSelect(cardId, value);
+    };
     return (
         <div className="card">
             <h2>{title}</h2>
-            <select onChange={(e) => handleOptionSelect(cardId, e.target.value)}>
+            <select onChange={handleChange} value={selectedOption}>
                 {options.map(option => (
-                    <option key={option.id} value={option.cost}>
+                    <option key={option.id} value={option.text}>
                         {option.text}
                     </option>
                 ))}
             </select>
+            {selectedOption === 'Custom' && (
+                <input
+                    type="text"
+                    value={customValue}
+                    onChange={handleCustomInputChange}
+                    placeholder="Enter custom value"
+                />
+            )}
         </div>
     );
 }
@@ -21,6 +43,7 @@ const CardContainer = () => {
     const [cards, setCards] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState({});
     const [totalCost, setTotalCost] = useState(0);
+    const [customData, setCustomData] = useState(0);
 
     useEffect(() => {
         fetch('http://localhost:3001/cards')
@@ -44,13 +67,14 @@ const CardContainer = () => {
     }, [selectedOptions]);
 
     const calculateTotalCost = (cardId) => {
-        return selectedOptions[cardId] || 0;
+        return selectedOptions[cardId] || cards.find(card => card.id === cardId)?.options[0]?.cost || 0;
     }
-
+    
     const chartData = cards.map(card => ({
         title: card.title,
-        cost: calculateTotalCost(card.id)
+        cost: selectedOptions[card.id] || card.options[0]?.cost || 0
     }));
+    
 
     const options = {
         labels: chartData.map(data => data.title),
@@ -73,7 +97,7 @@ const CardContainer = () => {
                 {cards.map((card, index) => (
                     <React.Fragment key={card.id}>
                         <Card key={card.id} cardId={card.id} title={card.title} options={card.options} handleOptionSelect={handleOptionSelect} />
-                        {index !== cards.length - 1 && <div className="line" />}
+                        {index !== cards.length  && <div className="line" />}
                         {index !== cards.length - 1 && <div className="plus">+</div>}
                     </React.Fragment>
                 ))}

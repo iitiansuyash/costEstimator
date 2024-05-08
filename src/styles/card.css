@@ -1,24 +1,21 @@
 .card-container {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    /* align-items: flex-end; */
     position: absolute;
-    /* bottom: 50  px; Adjust as needed */
     left: 50%;
     transform: translateX(-50%);
     gap: 20px;
 }
 
 .card {
-    width: 200px;
+    width: 150px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
+    position: relative; /* Added for proper positioning of :after pseudo-element */
 }
-
 
 .card:not(:last-child)::after {
     content: "";
@@ -42,11 +39,20 @@
 }
 
 .card select {
-    width: 100%;
+    width: calc(100% - 16px); /* Adjusted width to accommodate padding */
     padding: 8px;
     margin-top: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+.card input[type="text"] {
+    width: calc(100% - 16px); /* Adjusted width to accommodate padding */
+    padding: 8px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Added to include padding in width calculation */
 }
 
 .chart {
@@ -60,11 +66,9 @@
 .total-cost {
     margin-top: 20px;
     text-align: center;
-    
 }
 
 .total-cost p {
     font-weight: bold;
     color: #333;
-    
 }
